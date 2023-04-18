@@ -1,7 +1,10 @@
-FROM python:3.7-alpine
+FROM python:alpine3.17
+
+WORKDIR /usr/src/app
+RUN pip install Django==4.2 whitenoise==6.4.0
+COPY . .
+RUN python src/manage.py collectstatic
+
+ENTRYPOINT ["python"]
 EXPOSE 8080
-WORKDIR /my-django-app 
-RUN pip install django
-COPY . /my-django-app
-ENTRYPOINT ["python3"] 
-CMD ["manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["src/manage.py", "runserver", "0.0.0.0:8080"]
